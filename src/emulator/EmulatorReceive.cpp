@@ -59,8 +59,6 @@ void EmulatorReceive::EmulateFakeBuffer(void) {
   time_t now = time(0);
   uint8_t data[EMULATOR_MAX_SPOKE_LEN];
 
-  cv::imencode(".png", _frame, data);
-
   wxCriticalSectionLocker lock(m_ri->m_exclusive);
 
   m_ri->m_radar_timeout = now + WATCHDOG_TIMEOUT;
@@ -137,7 +135,7 @@ void EmulatorReceive::EmulateFakeBuffer(void) {
     wxLongLong time_rec = wxGetUTCTimeMillis();
     m_ri->ProcessRadarSpoke(angle, bearing, data, sizeof(data), range_meters, time_rec);
   }
-
+  cv::imencode(".png", _frame, data);
   LOG_VERBOSE(wxT("emulating %d spokes at range %d with %d spots"), scanlines_in_packet, range_meters, spots);
 }
 
